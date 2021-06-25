@@ -1,0 +1,15 @@
+{
+    "workbench.settings.useSplitJSON": true,
+    "[jsonc]": {
+
+
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.suggest.insertMode": "replace", 
+        
+    },
+    "json.schemas": [
+    
+    ]
+}
