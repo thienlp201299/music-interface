@@ -5,6 +5,7 @@ import { FontAwesome, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { Sound } from "expo-av/build/Audio/Sound";
 import { getNewSong, getSongDetail } from '../config/API';
 import { RotationGestureHandler } from 'react-native-gesture-handler';
+/* import { RetweetOutlined } from '@ant-design/icons' */
 
 
 const DetailSongScreen = () => {
@@ -20,7 +21,26 @@ const DetailSongScreen = () => {
     const [current, setcurrent] = useState(0);
 
 
-    const page = 0;
+
+    const Playsong = async () => {
+        const { sound: newSound } = await Sound.createAsync(
+            { uri: detailsongs && detailsongs.music },
+            { shouldPlay: isPlaying },
+            onPlaybackStatusUpdate
+
+        )
+        setSound(newSound)
+    }
+
+    useEffect(() => {
+        return sound
+            ? () => {
+                sound.unloadAsync();
+            }
+            : undefined;
+    }, [sound]);
+
+
     useEffect(() => {
         (async () => {
             const detailsongs = await getSongDetail(parms.id);
@@ -37,25 +57,15 @@ const DetailSongScreen = () => {
     }
 
 
-    const Playsong = async () => {
-        if (sound) {
-            await sound.unloadAsync();
-        }
-        console.log('detailsong', detailsongs)
-        const { sound: newSound } = await Sound.createAsync(
-            { uri: detailsongs && detailsongs.music },
-            { shouldPlay: isPlaying },
-            onPlaybackStatusUpdate
-
-        )
-        setSound(newSound)
-    }
-
     useEffect(() => {
         if (detailsongs) {
             Playsong();
         }
     }, [detailsongs])
+
+
+
+
 
 
     /*   useEffect(() => {
@@ -93,10 +103,13 @@ const DetailSongScreen = () => {
         }
         if (isPlaying) {
             await sound.pauseAsync();
-        } else {
+        }
+        else {
             await sound.playAsync();
         }
+
     }
+
 
     const getProgress = () => {
         if (sound === null || duration === null || position === null) {
@@ -126,7 +139,7 @@ const DetailSongScreen = () => {
             <Text style={styles.title} >{detailsongs && detailsongs.song_name}</Text>
             <View style={styles.row}>
                 <View style={styles.nexts}>
-                    <TouchableOpacity /* onPress={() => next(listsong, setcurrent(current - 1))} */ >
+                    <TouchableOpacity /* onPress={ReplayPress}onPress={() => next(listsong, setcurrent(current - 1))} */ >
                         <AntDesign name="stepbackward" size={45} color="black" />
                     </TouchableOpacity>
                 </View>
@@ -149,8 +162,6 @@ const DetailSongScreen = () => {
                 data={listsong}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
-
-
             /> */}
         </View>
     )
@@ -171,7 +182,8 @@ const styles = StyleSheet.create({
         marginTop: 30,
         borderRadius: 150,
         borderColor: "black",
-        backgroundColor: '#F781D8'
+        backgroundColor: '#F781D8',
+        alignItems: "center"
     },
     row: {
         flexDirection: 'row',

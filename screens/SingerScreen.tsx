@@ -20,7 +20,7 @@ export default function SingerScreen() {
     <View style={styles.container}>
       <FlatList
         data={singers}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <ListSinger
             singers={item}
           />

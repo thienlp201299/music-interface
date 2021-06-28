@@ -6,13 +6,13 @@ export const get_new_songs = "/songs/get_new_song/";
 
 export const get_topview_songs = "/songs/get_topview_songs/";
 
-export const get_all_singer = "/singers/all/15/";
+export const get_all_singer = "/singers/all/20/";
 
 export const get_detail_singer = "/singers/detail/";
 
 export const get_song_by_singer = "/presents/get_song_by_singer/";
 
-export const get_all_author = "/authors/all/10/";
+export const get_all_author = "/authors/all/20/";
 
 export const get_detail_author = "/authors/detail/";
 

@@ -9,12 +9,21 @@ import {SearchBar} from 'react-native-elements'
 const SearchScreen = () => {
 
   const route = useRoute();
-    const[search, setSearch] = React.useState('')
-    const [soqbysongname, setSongbySongName] = React.useState([]);
+  const[search, setSearch] = React.useState('')
+  const [soqbysongname, setSongbySongName] = React.useState([]);
   const [filteredDataSource, setFilteredDataSource] = React.useState([]);
   const [pageNum, setPageNum] = React.useState(1);
-  
-  
+
+
+  const searchFilterFunction = (text) => {
+    setSearch(text)
+    setFilteredDataSource(search);
+    console.log("search", search)
+   
+  }
+
+  console.log("soqbysongname", soqbysongname)
+   
  React.useEffect(() => {
    (async () => {
       const soqbysongname = await getSongBySongName(search, pageNum);
@@ -22,35 +31,36 @@ const SearchScreen = () => {
  
    })();
  }, [search]);
- console.log("search",search)
+ console.log("search",search) 
 
-  const searchFilterFunction = (text) => {
-      setSearch(text)
-      setFilteredDataSource(search);
-     
-    }
- 
-      return (
-        <SafeAreaView style={{ flex: 1 }}>
-          <View style={styles.container}>
-            <SearchBar
-              onChangeText={(text) => searchFilterFunction(text)}
-                onClear={(text) => searchFilterFunction('')}
-                placeholder="Nhập bài hát bạn cần tìm"
-                value={search}
-            />
-          </View>
-          <View style={{ paddingHorizontal: 10 }}>
-            <FlatList
-                data={soqbysongname}
-                renderItem={({ item, index }) => (
-                    <SearchSongName soqbysongname={item} />
-                )}
-                keyExtractor={(item, index) => item.songId.toString()}
-            />
+  
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <SearchBar
+            onChangeText={(text) => searchFilterFunction(text)}
+              onClear={(text) => searchFilterFunction('')}
+              placeholder="Nhập bài hát bạn cần tìm"
+              value={search}
+          />
         </View>
-        </SafeAreaView>
-      );
+
+        {search.length > 0 ?
+          (
+            <View style={{ paddingHorizontal: 10 }}>
+          <FlatList
+              data={soqbysongname}
+              renderItem={({ item, index }) => (
+                  <SearchSongName soqbysongname={item} />
+              )}
+              keyExtractor={(item, index) => item.songId.toString()}
+          />
+      </View>
+          ): null
+        }
+        
+      </SafeAreaView>
+    );    
     };
     
     const styles = StyleSheet.create({
